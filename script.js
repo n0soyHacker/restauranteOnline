@@ -148,22 +148,37 @@ Instrucciones Especiales: ${instrucciones || "Ninguna"}`;
 
         alert(message);
     }
-    // Obtener el formulario. Obtener todos los campos. Iterar sobre éstos y establecer el valor a =""
-    
-    const fields = form.querySelectorAll("input, select, textarea");
-    fields.forEach(field => {
-        field.value = "";
-      });
-      document.addEventListener("click", function(event) {
-        if (event.target.id === "clearOrder") {
-            const form = document.getElementById("orderForm");
-            const fields = form.querySelectorAll("input, select, textarea");
-            fields.forEach(field => {
+
+});
+
+//boton de borrar que toma todos los datos y los mensajes de error y los borra. 
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    const clearOrderButton = document.getElementById("clearOrder");
+    clearOrderButton.addEventListener("click", function() {
+        const form = document.getElementById("orderForm");
+        const fields = form.querySelectorAll("input, select, textarea");
+        
+        fields.forEach(field => {
+            if (field.type === "checkbox") {
+                field.checked = false;
+            } else {
                 field.value = "";
-              });
             }
-          });
 
+            if (field.classList.contains("valid")) {
+                field.classList.remove("valid");
+            }
+            if (field.classList.contains("invalid")) {
+                field.classList.remove("invalid");
+            }
+        });
 
+        const errorMessages = document.querySelectorAll(".error-message");
+        errorMessages.forEach(message => {
+            message.textContent = "";
+        });
+    });
 });
 
